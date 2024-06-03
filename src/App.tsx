@@ -1,8 +1,10 @@
+import { NextUIProvider } from '@nextui-org/react';
+
 function App() {
   return (
-    <div>
-      <h1>Hola mundo</h1>
-    </div>
+    <NextUIProvider>
+      <h1>Hello from nextUI</h1>
+    </NextUIProvider>
   );
 }
 
