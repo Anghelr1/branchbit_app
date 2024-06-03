@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react';
+import Swal from 'sweetalert2';
 import useApi from '../hooks/useBranchbitApi';
 import { Datum, WithdrawResponse } from '../interfaces/WithdrawResponse';
 
@@ -25,7 +26,14 @@ const Withdraw: React.FC<WithdrawProps> = ({ onReload }) => {
 
   const handleWithdraw = async () => {
     await fetchData({ amount });
-    onReload();
+    if (!error) {
+      onReload();
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: error,
+      });
+    }
   };
 
   return (
@@ -47,7 +55,7 @@ const Withdraw: React.FC<WithdrawProps> = ({ onReload }) => {
           {loading ? 'Retirando...' : 'Retirar'}
         </Button>
       </div>
-      {error && <p className='text-red-500 mt-4'>{error}</p>}
+
       {data && (
         <div className='mt-8'>
           <h2 className='text-xl font-bold mb-4'>Resultado del retiro:</h2>

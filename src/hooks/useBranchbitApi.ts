@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios, { AxiosResponse, Method } from 'axios';
+import Swal from 'sweetalert2';
 
 interface ApiResponse<T> {
   data: T | null;
@@ -26,7 +27,7 @@ function useApi<T>(url: string, method: Method = 'get'): ApiResponse<T> {
       setData(response.data);
       setLoading(false);
     } catch (error) {
-      setError('Error al obtener los datos de la API');
+      setError('Saldo insuficiente o datos incorrectos');
       setLoading(false);
     }
   };
