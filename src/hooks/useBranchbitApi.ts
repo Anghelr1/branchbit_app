@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios, { AxiosResponse, Method } from 'axios';
-import Swal from 'sweetalert2';
 
 interface ApiResponse<T> {
   data: T | null;

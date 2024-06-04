@@ -11,7 +11,7 @@ import {
 } from '@nextui-org/react';
 import Swal from 'sweetalert2';
 import useApi from '../hooks/useBranchbitApi';
-import { Datum, WithdrawResponse } from '../interfaces/WithdrawResponse';
+import { Datum, WithdrawResponse } from '../interfaces/withdrawResponse/WithdrawResponse';
 
 interface WithdrawProps {
   onReload: () => void;

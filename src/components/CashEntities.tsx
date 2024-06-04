@@ -8,7 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react';
-import { CashEntitiesResponse, Datum } from '../interfaces';
+import {
+  CashEntitiesResponse,
+  Datum,
+} from '../interfaces/cashResponse/CashEntitiesResponse';
 
 interface CashEntitiesProps {
   reload: boolean;
