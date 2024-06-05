@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios, { AxiosResponse, Method } from 'axios';
+import axios, { AxiosResponse, AxiosError, Method } from 'axios';
 
 interface ApiResponse<T> {
   data: T | null;
@@ -24,9 +24,18 @@ function useApi<T>(url: string, method: Method = 'get'): ApiResponse<T> {
         data: payload,
       });
       setData(response.data);
-      setLoading(false);
     } catch (error) {
-      setError('Saldo insuficiente o datos incorrectos');
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response) {
+          setError((axiosError.response.data as { message: string }).message);
+        } else {
+          setError('Ocurrió un error en la solicitud');
+        }
+      } else {
+        setError('Ocurrió un error desconocido');
+      }
+    } finally {
       setLoading(false);
     }
   };

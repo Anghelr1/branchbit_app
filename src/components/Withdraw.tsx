@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   Button,
+  Chip,
   Input,
   Table,
   TableBody,
@@ -9,9 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react';
-import Swal from 'sweetalert2';
 import useApi from '../hooks/useBranchbitApi';
-import { Datum, WithdrawResponse } from '../interfaces/withdrawResponse/WithdrawResponse';
+import {
+  Datum,
+  WithdrawResponse,
+} from '../interfaces/withdrawResponse/WithdrawResponse';
 
 interface WithdrawProps {
   onReload: () => void;
@@ -19,26 +22,32 @@ interface WithdrawProps {
 
 const Withdraw: React.FC<WithdrawProps> = ({ onReload }) => {
   const [amount, setAmount] = useState(0);
+  const [validationError, setValidationError] = useState('');
   const { data, loading, error, fetchData } = useApi<WithdrawResponse>(
     'http://127.0.0.1:8080/api/v1/cash/withdraw',
     'post'
   );
 
   const handleWithdraw = async () => {
-    await fetchData({ amount });
-    if (!error) {
-      onReload();
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: error,
-      });
+    if (amount <= 0) {
+      setValidationError('El monto a retirar debe ser mayor a 0');
+      return;
     }
+    setValidationError('');
+    await fetchData({ amount });
+    onReload();
   };
 
   return (
     <div>
-      <div className='flex justify-center items-end gap-4'>
+      <div className='flex flex-col justify-center items-center gap-4'>
+        {validationError ? (
+          <Chip color='warning'>{validationError}</Chip>
+        ) : error ? (
+          <Chip color='warning'>{error}</Chip>
+        ) : data && data.message ? (
+          <Chip color='success'>{data.message}</Chip>
+        ) : null}
         <Input
           type='number'
           placeholder='0.00'
